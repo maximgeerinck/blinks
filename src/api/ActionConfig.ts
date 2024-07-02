@@ -1,4 +1,3 @@
-import { Connection } from '@solana/web3.js';
 import { ActionComponent, type Action } from './Action.ts';
 
 export interface ActionContext {
@@ -33,7 +32,6 @@ export interface ActionAdapter {
 
 export class ActionConfig implements ActionAdapter {
   private static readonly CONFIRM_TIMEOUT_MS = 60000 * 1.2; // 20% extra time
-  private connection: Connection;
 
   constructor(
     rpcUrl: string,
@@ -43,7 +41,7 @@ export class ActionConfig implements ActionAdapter {
       throw new Error('rpcUrl is required');
     }
 
-    this.connection = new Connection(rpcUrl, 'confirmed');
+    // this.connection = new Connection(rpcUrl, 'confirmed');
   }
 
   async connect(context: ActionContext) {
@@ -69,19 +67,17 @@ export class ActionConfig implements ActionAdapter {
         }
 
         try {
-          const status = await this.connection.getSignatureStatus(signature);
-
-          // if error present, transaction failed
-          if (status.value?.err) {
-            rej(new Error('Transaction execution failed'));
-            return;
-          }
-
-          // if has confirmations, transaction is successful
-          if (status.value && status.value.confirmations !== null) {
-            res();
-            return;
-          }
+          // const status = await this.connection.getSignatureStatus(signature);
+          // // if error present, transaction failed
+          // if (status.value?.err) {
+          //   rej(new Error('Transaction execution failed'));
+          //   return;
+          // }
+          // // if has confirmations, transaction is successful
+          // if (status.value && status.value.confirmations !== null) {
+          //   res();
+          //   return;
+          // }
         } catch (e) {
           console.error('Error confirming transaction', e);
         }

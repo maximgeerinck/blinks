@@ -6,4 +6,5 @@ export interface ActionCallbacksConfig {
     originalUrl: string,
     type: 'trusted' | 'malicious' | 'unknown',
   ) => void;
+  onRender: (action: Action) => JSX.Element;
 }

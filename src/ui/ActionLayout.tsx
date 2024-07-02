@@ -24,6 +24,7 @@ interface LayoutProps {
   description: string;
   buttons?: ButtonProps[];
   inputs?: InputProps[];
+  onRender: any;
 }
 export interface ButtonProps {
   text: string | null;
@@ -67,17 +68,26 @@ export const ActionLayout = ({
   inputs,
   error,
   success,
+  onRender,
 }: LayoutProps) => {
+  if (onRender) {
+    onRender();
+  }
+
   return (
     <div className="mt-3 w-full cursor-default overflow-hidden rounded-2xl border border-twitter-accent bg-twitter-neutral-80 shadow-action">
-      {image && (
-        <Linkable url={websiteUrl}>
-          <img
-            className="aspect-square w-full object-cover object-left"
-            src={image}
-            alt="action-image"
-          />
-        </Linkable>
+      {onRender ? (
+        <div id="dialect-custom-render"></div>
+      ) : (
+        image && (
+          <Linkable url={websiteUrl}>
+            <img
+              className="aspect-square w-full object-cover object-left"
+              src={image}
+              alt="action-image"
+            />
+          </Linkable>
+        )
       )}
       <div className="flex flex-col p-5">
         <div className="mb-2 flex items-center gap-2">

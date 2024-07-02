@@ -170,6 +170,10 @@ const DEFAULT_SECURITY_LEVEL: SecurityLevel = 'only-trusted';
 type Source = 'websites' | 'interstitials' | 'actions';
 type NormalizedSecurityLevel = Record<Source, SecurityLevel>;
 
+// solana-action://action?http://...json
+
+// solana-action://portfolio/:useraddress
+
 export const ActionContainer = ({
   action,
   websiteUrl,
@@ -395,6 +399,10 @@ export const ActionContainer = ({
     return null;
   }, [executionState.status, isPassingSecurityCheck, overallState]);
 
+  const handleRender = () => {
+    return callbacks?.onRender?.(action);
+  };
+
   return (
     <ActionLayout
       type={overallState}
@@ -412,6 +420,7 @@ export const ActionContainer = ({
       buttons={buttons.map(asButtonProps)}
       inputs={inputs.map(asInputProps)}
       disclaimer={disclaimer}
+      onRender={callbacks?.onRender ? handleRender : null}
     />
   );
 };
